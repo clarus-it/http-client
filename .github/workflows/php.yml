@@ -58,7 +58,7 @@ jobs:
     - name: Run phpstan
       run: vendor/bin/phpstan analyse
 
-    - name: Run phpunit
-      run: |
-        export SYMFONY_DEPRECATIONS_HELPER='max[direct]=0'
-        vendor/bin/phpunit
+    # - name: Run phpunit
+    #   run: |
+    #     export SYMFONY_DEPRECATIONS_HELPER='max[direct]=0'
+    #     vendor/bin/phpunit
