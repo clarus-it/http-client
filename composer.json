@@ -1,6 +1,6 @@
 {
     "name": "clarus-it/http-client",
-    "description": "HTTP client library for",
+    "description": "Contoh HTTP client untuk keperluan mengakses API ke aplikasi-aplikasi buatan Clarus IT.",
     "homepage": "https://clarus-it.co.id",
     "type": "library",
     "license": "MIT",
