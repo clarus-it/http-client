@@ -1,0 +1,51 @@
+{
+    "name": "clarus-it/http-client",
+    "description": "HTTP client library for",
+    "homepage": "https://clarus-it.co.id",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "http",
+        "http-client",
+        "api",
+        "jwt",
+        "api-key",
+        "symfony",
+        "php",
+        "token",
+        "authentication",
+        "clarus"
+    ],
+    "authors": [
+        {
+            "name": "Priyadi Iman Nurcahyo",
+            "email": "priyadi@clarus-it.co.id"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "symfony/http-client": "^6.4 || ^7.0"
+    },
+    "require-dev": {
+        "ekino/phpstan-banned-code": "^1.0",
+        "phpstan/phpstan": "^1.10.50",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-phpunit": "^1.3",
+        "phpunit/phpunit": "^10.5",
+        "psalm/plugin-phpunit": "^0.18.4",
+        "vimeo/psalm": "^5.18"
+    },
+    "autoload": {
+        "psr-4": {
+            "ClarusIt\\HttpClient\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ClarusIt\\HttpClient\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
