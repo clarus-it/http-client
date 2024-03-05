@@ -18,6 +18,8 @@ $apiKey = '4e85a111bf36d87fea86f6452f5084a1bb7820b9605a18b217e3950eb5ea12c1';
 $client = new ClarusHttpClient($apiKey, $baseUri);
 
 // melakukan request GET ke https://example.com/api/ping
+// client akan secara otomatis melakukan login apabila belum login, atau jika
+// tokennya sudah kadaluwarsa
 $response = $client->request('GET', 'ping');
 
 // mendapatkan hasilnya sebagai array
