@@ -67,7 +67,6 @@ final class ClarusHttpClient implements HttpClientInterface
      *
      * @param array<array-key,mixed> $options
      */
-    #[\Override]
     public function request(
         string $method,
         string $url,
@@ -151,7 +150,6 @@ final class ClarusHttpClient implements HttpClientInterface
     /**
      * Tidak digunakan, silakan diabaikan saja
      */
-    #[\Override]
     public function stream(
         ResponseInterface|iterable $responses,
         ?float $timeout = null
@@ -164,7 +162,6 @@ final class ClarusHttpClient implements HttpClientInterface
      *
      * @param array<array-key,mixed> $options
      */
-    #[\Override]
     public function withOptions(array $options): static
     {
         throw new \LogicException('Not implemented yet');
