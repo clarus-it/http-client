@@ -6,25 +6,26 @@ start
 
 partition library API client {
     if (apakah sudah\nada token?) then (tidak)
-    :lakukan login untuk
-    mendapatkan token;
+        :lakukan login untuk
+        mendapatkan token;
+    else (ya)
     endif
 
     :lakukan request
     menggunakan token;
 
     if (apakah responsenya 401?) then (ya)
-    :lakukan login ulang untuk
-    mendapatkan token;
-    :ulangi request dengan
-    token yang baru;
+        :lakukan login ulang untuk
+        mendapatkan token;
+        :ulangi request dengan
+        token yang baru;
+    else (tidak)
     endif
 
     :return responsenya;
 }
 
 :mendapatkan response dari API;
-
 
 end
 
