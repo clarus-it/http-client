@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace ClarusIt\HttpClient;
 
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Token\Parser;
+use Lcobucci\JWT\UnencryptedToken;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -20,6 +23,8 @@ use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
 final class ClarusHttpClient implements HttpClientInterface
 {
+    const TIME_COMPENSATION = 300;
+
     /**
      * API Key yang didapatkan dari aplikasi
      */
@@ -36,6 +41,11 @@ final class ClarusHttpClient implements HttpClientInterface
     private HttpClientInterface $client;
 
     /**
+     * Parser untuk JWT token
+     */
+    private Parser $parser;
+
+    /**
      * @param string $apiKey API Key yang didapat dari aplikasi
      * @param string $baseUrl Base URL, termasuk path /api/ di akhir, misalnya
      * https://example.com/api/
@@ -50,6 +60,7 @@ final class ClarusHttpClient implements HttpClientInterface
     ) {
         $this->apiKey = $apiKey;
         $this->client = $client ?? HttpClient::create();
+        $this->parser = new Parser(new JoseEncoder());
 
         $this->client = $this->client->withOptions(
             [
@@ -77,6 +88,13 @@ final class ClarusHttpClient implements HttpClientInterface
         // gagal dengan Exception tersebut.
 
         if ($this->token === null) {
+            $this->login();
+        }
+
+        // jika token yang kita miliki sudah kedaluarsa atau sebentar lagi akan
+        // kedaluarsa, maka kita lakukan login ulang.
+
+        if ($this->isTokenExpired()) {
             $this->login();
         }
 
@@ -145,6 +163,52 @@ final class ClarusHttpClient implements HttpClientInterface
         }
 
         $this->token = $token;
+    }
+
+    /**
+     * Menghitung apakah token yang kita miliki saat ini sudah kedaluarsa, atau
+     * sebentar lagi kedaluarsa
+     */
+    private function isTokenExpired(): bool
+    {
+        // jika token tidak ada, maka dianggap sudah kedaluarsa
+
+        if ($this->token === null || $this->token === '') {
+            return true;
+        }
+
+        // parse token yang kita miliki
+
+        $token = $this->parser->parse($this->token);
+
+        // jika token yang kita miliki bukan instance dari UnencryptedToken,
+        // maka dianggap sudah kedaluarsa
+
+        if (!$token instanceof UnencryptedToken) {
+            return true;
+        }
+
+        // ambil claims dari token
+
+        $claims = $token->claims();
+
+        // ambil nilai `exp` dari claims
+
+        $exp = $claims->get('exp');
+
+        // jika nilai `exp` tidak ada, atau bukan integer, maka dianggap sudah
+        // kedaluarsa
+
+        if (!is_int($exp)) {
+            return true;
+        }
+
+        // jika waktu kedaluarsa dari token kurang dari waktu sekarang dikurangi
+        // dengan TIME_COMPENSATION, maka dianggap sudah kedaluarsa. jadi jika
+        // token expire pukul 10:00, maka token dianggap sudah kedaluarsa pukul
+        // 09:55
+
+        return $exp < time() - self::TIME_COMPENSATION;
     }
 
     /**
