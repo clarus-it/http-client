@@ -1,9 +1,19 @@
 # clarus-it/http-client
 
-Contoh HTTP client untuk keperluan mengakses API ke aplikasi-aplikasi buatan
-Clarus IT.
+Library HTTP client dalam bahasa pemrograman PHP untuk keperluan mengakses API
+ke aplikasi-aplikasi buatan Clarus IT. Library ini berlaku sebagai reference
+implementation dan contoh bagi yang perlu membuat implementasi untuk bahasa
+pemrograman lain.
 
-## Contoh Penggunaan
+## Instalasi
+
+Untuk menginstall library ini, bisa menggunakan composer:
+
+```bash
+composer require clarus-it/http-client
+```
+
+## Penggunaan
 
 Berikut contoh penggunaan `ClarusHttpClient`:
 
@@ -19,7 +29,7 @@ $client = new ClarusHttpClient($apiKey, $baseUri);
 
 // melakukan request GET ke https://example.com/api/ping
 // client akan secara otomatis melakukan login apabila belum login, atau jika
-// tokennya sudah kadaluwarsa
+// tokennya sudah kedaluarsa
 $response = $client->request('GET', 'ping');
 
 // mendapatkan hasilnya sebagai array
@@ -31,15 +41,26 @@ digunakan dengan cara yang sama dengan Symfony HttpClient.
 
 ## Algoritma
 
-![Diagram proses](docs/proses.png?raw=true "Title")
+Algoritma operasional HTTP client ini adalah sebagai berikut.
 
-## Bahasa Pemrograman Lain
+![Diagram proses](docs/proses.svg?raw=true "Title")
+
+Catatan: Bagian pengecekan apakah token kedaluarsa sebenarnya boleh saja tidak
+diimplementasikan. Konsekuensinya, library hanya dapat tahu token sudah
+kedaluarsa setelah melakukan request ke server.
+
+## Pembuatan Implementasi Dalam Bahasa Pemrograman Lain
 
 Pada bahasa pemrograman lain seharusnya tidak sulit untuk mengimplementasikan
 HTTP client ini. Untuk contoh, bisa melihat pada file
 [ClarusHttpClient.php](./src/ClarusHttpClient.php) dan mengadaptasikan ke bahasa
 pemrograman lain tersebut.
 
-## License
+Untuk keperluan parsing JWT, bisa menggunakan library yang ada di bahasa
+pemrograman yang digunakan. Daftar library bisa dilihat di
+[jwt.io](https://jwt.io/libraries). Yang diperlukan untuk kasus ini adalah
+library yang dapat melakukan `exp` check.
+
+## Lisensi
 
 MIT

@@ -4,11 +4,17 @@ start
 
 :melakukan request API;
 
-partition library API client {
-    if (apakah sudah\nada token?) then (tidak)
+partition library HTTP client {
+    if (apakah sudah\nmemiliki token?) then (tidak)
         :lakukan login untuk
         mendapatkan token;
     else (ya)
+    endif
+
+    if (apakah token\nsudah kedaluarsa\natau sebentar lagi\nakan kedaluarsa?) then (ya)
+        :lakukan login ulang untuk
+        mendapatkan token;
+    else (tidak)
     endif
 
     :lakukan request

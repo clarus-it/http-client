@@ -1,5 +1,7 @@
 PHP=php
 COMPOSER=composer
+PLANTUML=docker run --rm --user $$(id -u):$$(id -g) -v ./:/data/ plantuml/plantuml
+WSD_FILES=$(wildcard docs/*.wsd)
 
 .PHONY: test
 test: dump phpstan psalm phpunit
@@ -29,3 +31,10 @@ php-cs-fixer: tools/php-cs-fixer
 .PHONY: tools/php-cs-fixer
 tools/php-cs-fixer:
 	phive install php-cs-fixer
+
+.PHONY: docs/%.svg
+docs/%.svg: docs/%.wsd
+	$(PLANTUML) -tsvg $< -o ./
+
+.PHONY: diagrams
+diagrams: $(WSD_FILES:docs/%.wsd=docs/%.svg)
