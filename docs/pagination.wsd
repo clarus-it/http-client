@@ -1,0 +1,19 @@
+@startuml
+
+start
+
+:melakukan request API dengan pagination;
+
+partition pagination iterator {
+    while (ada halaman saat ini?) is (ada)
+        :lakukan request halaman saat ini;
+        :parse dan iterasi output response;
+        :cek rel=next pada header link,\ngunakan sebagai halaman saat ini;
+    endwhile (tidak ada)
+}
+
+:selesai;
+
+end
+
+@enduml
