@@ -24,8 +24,10 @@
     ],
     "require": {
         "php": ">=8.2",
+        "graviton/link-header-rel-parser": "^1.0",
         "lcobucci/jwt": "^5.2",
-        "symfony/http-client": "^6.4 || ^7.0"
+        "symfony/http-client": "^6.4 || ^7.0",
+        "symfony/var-dumper": "^6.4 || ^7.0"
     },
     "require-dev": {
         "ekino/phpstan-banned-code": "^1.0",
